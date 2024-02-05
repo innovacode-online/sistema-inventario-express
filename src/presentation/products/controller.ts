@@ -1,12 +1,16 @@
 import { Request, Response } from "express";
-import { ProductsService } from "../../infraestructure/products/service";
+import { ProductsService } from '../../infraestructure/products/service';
 import { CreateProductDto } from '../../domain/dtos/products/create-product.dto';
 
 
 export class ProductsController {
     // CREAR SERVICIO
-    public readonly productService = new ProductsService();
+    // public readonly productService = new ProductsService();
+    // public readonly app = express();
 
+    constructor(
+        private readonly productService: ProductsService,
+    ){}
     
     // CREAR LOS METODOS DE CONTROLADOR
     async getAllProducts( req: Request, res: Response ){
@@ -29,7 +33,7 @@ export class ProductsController {
             .then(product => res.json({ product }));
     }
 
-    async removeProductById(req: Request, res: Response){
+    async deleteProductById(req: Request, res: Response){
         const id = req.params.id;
         await this.productService.remove( id )
             .then( response => res.json(response) );

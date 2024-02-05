@@ -23,6 +23,7 @@ export class Server {
 
     async start(){
         this.app.use(express.json());
+        this.app.use('/api', this.routes);
 
         this.app.listen(this.port, () => {
             console.log('Server listening on port ' + this.port);

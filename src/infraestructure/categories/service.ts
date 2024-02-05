@@ -1,16 +1,17 @@
-import { CreateProductDto } from "../../domain/dtos/products/create-product.dto";
+import { CreateCategoryDto } from '../../domain/dtos/categories/create-category.dto';
+
 
 // CASOS DE USO
-export class ProductsService {
-
+export class CategoriesService {
     async findAll(){
+
     }
 
     async findOne( term: string | number ){
         
     }
 
-    async create( createProductDto: CreateProductDto ){
+    async create( createCategoryDto: CreateCategoryDto ){
         
     }
 
