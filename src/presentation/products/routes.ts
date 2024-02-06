@@ -8,9 +8,8 @@ export class ProductsRouter {
 
     
     static get routes(): Router {
-        const productsService = new ProductsService();
         const router = Router();
-        const controller = new ProductsController( productsService );
+        const controller = new ProductsController( );
 
         router.get('/', controller.getAllProducts);
         router.get('/:id', controller.getProductById);

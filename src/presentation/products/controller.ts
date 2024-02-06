@@ -4,19 +4,12 @@ import { CreateProductDto } from '../../domain/dtos/products/create-product.dto'
 
 
 export class ProductsController {
-    // CREAR SERVICIO
-    // public readonly productService = new ProductsService();
-    // public readonly app = express();
 
-    constructor(
-        private readonly productService: ProductsService,
-    ){}
-    
-    // CREAR LOS METODOS DE CONTROLADOR
-    async getAllProducts( req: Request, res: Response ){
-        // LLAMAR A CASOS DE USO
-        const products = await this.productService.findAll();
-        return res.json({ products });
+    private readonly productService = new ProductsService();
+
+    getAllProducts = async (req: Request, res: Response) => {
+        this.productService.findAll();
+        // Resto del código...
     }
 
     async getProductById( req: Request, res: Response ){
