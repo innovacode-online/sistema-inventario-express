@@ -4,42 +4,47 @@ import { CreateProductDto } from '../../domain/dtos/products/create-product.dto'
 
 
 export class ProductsController {
-    // CREAR SERVICIO
-    // public readonly productService = new ProductsService();
-    // public readonly app = express();
 
     constructor(
         private readonly productService: ProductsService,
     ){}
     
     // CREAR LOS METODOS DE CONTROLADOR
-    async getAllProducts( req: Request, res: Response ){
+    getAllProducts = async ( req: Request, res: Response ) => {
         // LLAMAR A CASOS DE USO
-        const products = await this.productService.findAll();
-        return res.json({ products });
+        await this.productService.findAll()
+            .then( products => res.json({ products }))
+            .catch(({ statusCode, message }) => res.status(statusCode).json({ message }));
     }
 
-    async getProductById( req: Request, res: Response ){
+    getProductById = async ( req: Request, res: Response ) => {
+        
         const id = req.params.id;
-        const product = await this.productService.findOne( id );
-        return res.json({ product });
+
+        await this.productService.findOne( id )
+            .then( product => res.json({ product }))
+            .catch(({ statusCode, message }) => res.status(statusCode).json({ message }));
     }
 
-    async createNewProduct(req: Request, res: Response){
+    createNewProduct = async ( req: Request, res: Response ) => {
         const [ error, createProductDto ] = CreateProductDto.create( req.body );
         
-        // TODO: VALIDACIONES
+        if( error ) return res.status(400).json({ message: error })
+
         await this.productService.create( createProductDto! )
-            .then(product => res.json({ product }));
+            .then( product => res.json({ product }))
+            .catch(({ statusCode, message }) => res.status(statusCode).json({ message }));
     }
 
-    async deleteProductById(req: Request, res: Response){
+    deleteProductById = async ( req: Request, res: Response ) => {
         const id = req.params.id;
+        
         await this.productService.remove( id )
-            .then( response => res.json(response) );
+            .then( response => res.json( response ))
+            .catch(({ statusCode, message }) => res.status(statusCode).json({ message }));
     }
 
-    async updateProductById(req: Request, res: Response){
+    updateProductById = async ( req: Request, res: Response ) => {
         
     }
 }
