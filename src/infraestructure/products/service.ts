@@ -3,8 +3,8 @@ import { CreateProductDto } from "../../domain/dtos/products/create-product.dto"
 // CASOS DE USO
 export class ProductsService {
 
-    findAll(){
-        console.log('Find all products')
+    async findAll(){
+        
     }
 
     async findOne( term: string | number ){

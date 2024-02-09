@@ -3,43 +3,45 @@ import { Request, Response } from "express";
 import { CreateCategoryDto } from '../../domain';
 import { CategoriesService } from "../../infraestructure";
 
-
-
 export class CategoriesController {
 
-    // LLAMAR AL SERVICIO
-    public readonly categoriesService = new CategoriesService();
+    constructor(
+        private readonly categoriesService: CategoriesService,
+    ){}
 
-    async getAllCategories( req: Request, res: Response ) {
-        const categories = await this.categoriesService.findAll();
-        return res.json({ categories });
+
+    getAllCategories = async ( req: Request, res: Response ) => {
+        await this.categoriesService.findAll()
+            .then( categories => res.json({ categories }))
+            .catch(error => res.status(error.statusCode).json({ message: error.message }) );   
     }
 
     
-    async getCategoryById( req: Request, res: Response ) {
+    getCategoryById = async ( req: Request, res: Response ) => {
         const { id } = req.params;
         await this.categoriesService.findOne(id)
             .then( category => res.json({ category }))
-            .catch(error => res.status(404).json({ error }));
+            .catch(error => res.status(error.statusCode).json({ message: error.message }));
     }
     
-    async createNewCategory( req: Request, res: Response ) {
+    createNewCategory = async ( req: Request, res: Response ) => {
         const [ error, createCategoryDto ] = CreateCategoryDto.create( req.body );
-        // if( error ) return 
+        if( error ) return res.status(400).json({ message: error });
         await this.categoriesService.create( createCategoryDto! )
             .then( category => res.json({ message:'Categoria creada con exito', category }))
-            .catch( error => res.status(404).json({ error }));
+            .catch(error => res.status(error.statusCode).json({ message: error.message }) );
     }
 
     
-    async deleteCategoryById( req: Request, res: Response ) {
+    deleteCategoryById = async ( req: Request, res: Response ) => {
         const { id } = req.params;
         await this.categoriesService.remove( id )
-            .then(response => res.json({ message: response }));
+            .then(response => res.json({ message: response }))
+            .catch(error => res.status(error.statusCode).json({ message: error.message }) );;
     }
 
     
-    async updateCategoryById( req: Request, res: Response ) {
+    updateCategoryById = async ( req: Request, res: Response ) => {
         
     }
 

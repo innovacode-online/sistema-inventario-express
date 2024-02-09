@@ -1,10 +1,15 @@
-import { CreateCategoryDto } from '../../domain/dtos/categories/create-category.dto';
+import { CreateCategoryDto, CustomError } from "../../domain";
+
 
 
 // CASOS DE USO
 export class CategoriesService {
+
     async findAll(){
 
+
+
+        throw CustomError.notFound("No se encontro el servidor") 
     }
 
     async findOne( term: string | number ){
